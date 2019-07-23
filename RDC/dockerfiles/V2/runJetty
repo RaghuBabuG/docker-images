@@ -1,0 +1,45 @@
+#!/bin/bash -e
+#
+# Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+#
+# Licensed under the Universal Permissive License v 1.0 as shown at http://oss.oracle.com/licenses/upl.
+#
+# Script to install and configure RDC if it does not exist and them start jetty.
+
+#Read the passing Environment variables
+username=$1
+pwd=$2
+
+#Create rdc home only if 1st execution, else start Jetty.
+if [ ! -d /rdc/rdchome ]; then
+   echo "Install and Configure RDC..."
+   respfile="/rdc/rdc-response-file.rsp"
+   if [ -f $respfile ] ; then
+      sed -i "s/\(CREDENTIALS_PAGE_ADMIN_USERNAME=\).*\$/\1${username}/" $respfile
+      sed -i "s/\(CREDENTIALS_PAGE_PASSWORD=\).*\$/\1${pwd}/" $respfile
+      echo "response file updated with user passed credentials"
+   fi
+   /rdc/bi_rdc_client.bin -silent -responseFile /rdc/rdc-response-file.rsp -invPtrLoc /rdc/oraInst.loc
+   echo "RDC is installed and configured successfullly."
+   # once installation and configuration completes remove the response file
+   if [ -f $respfile ] ; then
+      rm $respfile
+   fi
+else
+  echo "RDC is already installed and Configured."
+fi
+
+echo "Starting Jetty Server.."
+/rdc/rdchome/domain/bin/startJetty.sh
+echo "Jetty Started Successfully"
+
+sleep 10s
+
+# show the status of Jetty
+/rdc/rdchome/domain/bin/status.sh
+
+# tail jetty log to hold the container in running state
+tail -f /rdc/rdchome/domain/jettybase/logs/*jetty.log &
+
+PID=$!
+wait $PID
