@@ -4,12 +4,12 @@
 #
 # ORACLE DOCKERFILES PROJECT
 # --------------------------
-# This is the Dockerfile for Remote Data Connector Client V2 installer
+# This is the Dockerfile for Remote Data Gateway V2 installer
 # 
 # REQUIRED FILES TO BUILD THIS IMAGE
 # ----------------------------------
-# (1) bi_rdc_client-<version>.jar 
-#     Download the above installer file from https://www.oracle.com/technetwork/middleware/oac/downloads/index.html  and copy as bi_rdc_client.bin on V2 location(RDC/dockerfiles/V2).
+# (1) bi_rdc_client-<version>.bin
+#     Download the above installer file from https://www.oracle.com/middleware/technologies/oac-downloads.html
 #
 # HOW TO BUILD THIS IMAGE
 # -----------------------
