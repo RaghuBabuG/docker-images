@@ -31,11 +31,14 @@ e.g.:
 
         $ docker run -it -p 8080:8080 -e username=<admin> -e pwd=<admin_password> oracle/rdc:V2
 
+
 ##The following example URL provides access to the Remote Data Gateway:
-* http://<host>:<port>/javaads/config.jsp - Remote Data Gateway Configuration
+* http://&lt;host&gt;:&lt;port&gt;/javaads/config.jsp - Remote Data Gateway Configuration
+
 
 ##Known Issues
 1. Docker health-check is not implemented.
+
 
 ## License
 
